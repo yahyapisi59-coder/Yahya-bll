@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>المعالجة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&family=Unbounded:wght@800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#15133a; --ink:#f4efe3; --accent:#ffb703; --track:rgba(244,239,227,.14); }
+  * { box-sizing:border-box; margin:0; }
+  html, body { height:100%; }
+  body { background:radial-gradient(circle at 50% 30%, #231f5c 0%, var(--bg) 60%); color:var(--ink); font-family:"Cairo",system-ui,sans-serif; display:grid; place-items:center; padding:24px; }
+  main { width:min(440px,100%); text-align:center; }
+  #loading p { font-size:1.25rem; font-weight:700; margin-bottom:18px; }
+  .track { height:12px; border-radius:999px; background:var(--track); overflow:hidden; }
+  .bar { height:100%; width:0; border-radius:inherit; background:var(--accent); transition:width .2s linear; }
+  .percent { margin-top:10px; font-size:.95rem; opacity:.75; }
+  #result { display:none; }
+  #result.show { display:block; animation:rise .6s ease both; }
+  .check { width:64px; height:64px; margin:0 auto 18px; border-radius:50%; background:var(--accent); display:grid; place-items:center; }
+  .check svg { width:32px; height:32px; stroke:var(--bg); stroke-width:4; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+  #result h1 { font-size:1.6rem; font-weight:700; margin-bottom:36px; }
+  .name { direction:ltr; font-family:"Unbounded","Arial Black",sans-serif; font-weight:800; font-size:clamp(1.5rem,7vw,2.4rem); letter-spacing:-.02em; color:var(--accent); padding:14px 18px; border:2px solid var(--accent); border-radius:14px; display:inline-block; box-shadow:6px 6px 0 var(--accent); }
+  @keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+</style>
+</head>
+<body>
+<main>
+  <section id="loading">
+    <p>تتم المعالجة...</p>
+    <div class="track"><div class="bar" id="bar"></div></div>
+    <div class="percent" id="percent">0%</div>
+  </section>
+  <section id="result">
+    <div class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+    <h1>تمت المعالجة بنجاح</h1>
+    <div class="name">yasine_yahya</div>
+  </section>
+</main>
+<script>
+  const bar = document.getElementById('bar');
+  const percent = document.getElementById('percent');
+  const loading = document.getElementById('loading');
+  const result = document.getElementById('result');
+  let value = 0;
+  const timer = setInterval(() => {
+    value = Math.min(100, value + Math.random() * 6 + 2);
+    const v = Math.round(value);
+    bar.style.width = v + '%';
+    percent.textContent = v + '%';
+    if (value >= 100) {
+      clearInterval(timer);
+      setTimeout(() => {
+        loading.style.display = 'none';
+        result.classList.add('show');
+      }, 400);
+    }
+  }, 120);
+</script>
+</body>
+</html>
